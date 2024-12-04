@@ -153,10 +153,12 @@ class mlClient(object):
             recall = recall_score(y_test, y_pred)
             f1 = f1_score(y_test, y_pred)
             
-            if name in ('DecisionTree','RandomForest','LGBM'):
+            importances = None
+            try:
                 importances = clf.feature_importances_
-            else:
-                importances = None
+            except:
+                print(f'{name}模型没有feature_importances_')
+                
             
             self.model_compare.append([name, train_time, pred_time, accuracy, precision, recall, f1, importances])
             self.df = pd.DataFrame(self.model_compare, columns=self.column_names)
