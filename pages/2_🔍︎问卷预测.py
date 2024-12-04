@@ -3,6 +3,7 @@ import streamlit as st
 import joblib
 import pandas as pd
 from ai_train import ai_train
+import os
 
 # 设置页面配置
 st.set_page_config(page_title="🔍问卷预测",
