@@ -11,6 +11,7 @@ st.set_page_config(page_title="🔍问卷预测",
                    initial_sidebar_state="expanded"
                    )
 
+print(os.path.dirname(os.path.abspath(sys.argv[0])))
 
 def get_age_group(age):
     if 18 <= age <= 24:
