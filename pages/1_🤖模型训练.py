@@ -169,7 +169,9 @@ if button:
     st.dataframe(model_compare)
     max_index = model_compare["f1"].idxmax()
     best_model = model_compare.loc[max_index][0]
+    importances = model_compare.loc[max_index][7]
     st.write(f">> 推荐使用模型：{best_model}")
+    st.write(f">> 特征重要性：{importances}")
 
     progress_bar.progress(100)
     status_text.text("完成100%")
