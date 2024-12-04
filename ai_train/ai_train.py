@@ -58,6 +58,7 @@ def data_change(data):
             except:
                 print(f'{col}转换失败: {data[col]}')
             joblib.dump(tmp_dict, f'ai_train/dict/{col}_dict.dict')
+            print(tmp_dict)
     return data
 
 
