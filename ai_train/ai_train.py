@@ -107,7 +107,7 @@ class mlClient(object):
                        'Voting': {'estimators': self.estimators},
                        'Stacking': {'estimators': self.estimators, 'final_estimator': [RandomForestClassifier()]},
                        }
-        self.column_names = ["model", "train_time", "pred_time", "accuracy", "precision", "recall", "f1"]
+        self.column_names = ["model", "train_time", "pred_time", "accuracy", "precision", "recall", "f1", "importances"]
 
     def main(self, filename, rowCount, selections=['LGBM']):
         # 读取数据
@@ -152,12 +152,13 @@ class mlClient(object):
             precision = precision_score(y_test, y_pred)
             recall = recall_score(y_test, y_pred)
             f1 = f1_score(y_test, y_pred)
-
-            self.model_compare.append([name, train_time, pred_time, accuracy, precision, recall, f1])
+            importances = clf.feature_importances_
+            
+            self.model_compare.append([name, train_time, pred_time, accuracy, precision, recall, f1, importances])
             self.df = pd.DataFrame(self.model_compare, columns=self.column_names)
 
             # 覆盖保存模型
-            joblib.dump([clf, self.mu, self.sigma,f1,clf.feature_importances_], f'{models_path}/{name}.pkl')
+            joblib.dump([clf, self.mu, self.sigma,f1], f'{models_path}/{name}.pkl')
 
 
 if __name__ == '__main__':
