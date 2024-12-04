@@ -166,12 +166,32 @@ if button:
     st.write(f">> 各模型训练结果对比：")
     model_compare = client.df
     # 绘制表格
-    st.dataframe(model_compare)
+    st.dataframe(model_compare.drop(columns='importances'))
     max_index = model_compare["f1"].idxmax()
     best_model = model_compare.loc[max_index][0]
+    print(model_compare.loc[max_index])
+
     importances = model_compare.loc[max_index][7]
     st.write(f">> 推荐使用模型：{best_model}")
-    st.write(f">> 特征重要性：{importances}")
+
+    file_obj.seek(0)
+    feature_names = pd.read_csv(file_obj).drop(columns=['HeartDisease']).columns.tolist()
+    df_importances = pd.DataFrame(importances, index=feature_names, columns=['Importance'])
+
+    # 分割线
+    st.write("---")
+    st.write(f'{best_model}模型特征重要性如下：')
+    # 绘制横向条形图
+    fig, ax = plt.subplots(figsize=(10, 6), constrained_layout=True)
+    df_importances.plot(kind='barh', legend=False, ax=ax)
+
+    # 添加标题和轴标签
+    ax.set_title('Feature Importances')
+    ax.set_xlabel('Importance')
+    ax.set_ylabel('Feature')
+
+    # 显示图形
+    st.pyplot(fig)
 
     progress_bar.progress(100)
     status_text.text("完成100%")
