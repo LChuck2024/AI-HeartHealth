@@ -24,8 +24,8 @@ warnings.filterwarnings('ignore', category=FutureWarning)  # 忽略 FutureWarnin
 def create_dict_path():
     return os.path.dirname(os.path.abspath(sys.argv[0]))
 
-dicts_path = os.path.join(create_dict_path(), 'ai_train','dict')
-models_path = os.path.join(create_dict_path(), 'ai_train','dict')
+dicts_path = os.path.join(create_dict_path(), 'ai_train','dicts')
+models_path = os.path.join(create_dict_path(), 'ai_train','models')
 
 
 def data_read(filename, encoding='utf-8', rowCount=None):
