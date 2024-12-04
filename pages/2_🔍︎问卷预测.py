@@ -123,7 +123,7 @@ data = ai_train.data_change(data)
 # 数据标准化
 data = (data - mu) / sigma
 prediction = model.predict(data)[0]
-HeartDisease_dict = joblib.load(f'/mount/src/ai-hearthealth/ai_train/dict/HeartDisease_dict.dict')
+HeartDisease_dict = joblib.load(f'/mount/src/ai-hearthealth/ai_train/dicts/HeartDisease_dict.dict')
 result_dict = {item: idex for idex, item in HeartDisease_dict.items()}
 result = result_dict.get(prediction)
 st.write(f'模型预测结果：{result}，预测准确率：{round(f1 * 100, 2)}%')
