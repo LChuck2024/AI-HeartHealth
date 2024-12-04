@@ -166,7 +166,7 @@ if button:
     st.write(f">> 各模型训练结果对比：")
     model_compare = client.df
     # 绘制表格
-    st.dataframe(model_compare).drop(columns=['importances'])
+    st.dataframe(model_compare)
   
     max_index = model_compare["f1"].idxmax()
     best_model = model_compare.loc[max_index][0]
