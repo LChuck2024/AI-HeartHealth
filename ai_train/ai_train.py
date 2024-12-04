@@ -20,6 +20,12 @@ import os
 
 warnings.filterwarnings('ignore', category=FutureWarning)  # 忽略 FutureWarning
 
+def create_dict_path():
+    return os.path.dirname(os.path.abspath(sys.argv[0]))
+
+dicts_path = os.path.join(create_dict_path(), 'ai_train','dict')
+models_path = os.path.join(create_dict_path(), 'ai_train','dict')
+
 
 def data_read(filename, encoding='utf-8', rowCount=None):
     # 读取数据
@@ -48,8 +54,8 @@ def data_change(data):
     for col in data.columns:
         if data[col].dtype != 'float64' or data[col].dtype != 'int64':
             # print(f'{col}:{tmp_data[col].dtype}')
-            if os.path.exists(f'./ai_train/dict/{col}_dict.dict'):
-                tmp_dict = joblib.load(f'/mount/src/ai-hearthealth/ai_train/dict/{col}_dict.dict')
+            if os.path.exists(f'{dicts_path}/{col}_dict.dict'):
+                tmp_dict = joblib.load(f'{dicts_path}/{col}_dict.dict')
                 print(f'{col}:{tmp_dict}')
             else:
                 tmp_dict = {item: index for index, item in enumerate(data[col].unique())}
@@ -57,7 +63,7 @@ def data_change(data):
                 data[col] = data[col].apply(func=lambda x: tmp_dict[x])
             except:
                 print(f'{col}转换失败: {data[col]}')
-            joblib.dump(tmp_dict, f'/mount/src/ai-hearthealth/ai_train/dict/{col}_dict.dict')
+            joblib.dump(tmp_dict, f'{dicts_path}/{col}_dict.dict')
             print(tmp_dict)
     return data
 
@@ -144,7 +150,7 @@ class mlClient(object):
             self.df = pd.DataFrame(self.model_compare, columns=self.column_names)
 
             # 覆盖保存模型
-            joblib.dump([clf, self.mu, self.sigma,f1], f'/mount/src/ai-hearthealth/ai_train/models/{name}.pkl')
+            joblib.dump([clf, self.mu, self.sigma,f1], f'{models_path}/{name}.pkl')
 
 
 if __name__ == '__main__':
