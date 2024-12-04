@@ -157,7 +157,7 @@ class mlClient(object):
             self.df = pd.DataFrame(self.model_compare, columns=self.column_names)
 
             # 覆盖保存模型
-            joblib.dump([clf, self.mu, self.sigma,f1], f'{models_path}/{name}.pkl')
+            joblib.dump([clf, self.mu, self.sigma,f1,clf.feature_importances_], f'{models_path}/{name}.pkl')
 
 
 if __name__ == '__main__':
