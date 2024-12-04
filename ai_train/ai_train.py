@@ -27,6 +27,12 @@ def create_dict_path():
 dicts_path = os.path.join(create_dict_path(), 'ai_train','dicts')
 models_path = os.path.join(create_dict_path(), 'ai_train','models')
 
+if not os.path.exists(dicts_path):
+    os.makedirs(dicts_path)
+
+if not os.path.exists(models_path):
+    os.makedirs(models_path)
+
 
 def data_read(filename, encoding='utf-8', rowCount=None):
     # 读取数据
