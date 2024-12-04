@@ -1,4 +1,4 @@
-streamlit==1.14.0
+streamlit==1.40.2
 scikit-learn==1.4.0
 lightgbm==2.2.2
 matplotlib==3.4.1
