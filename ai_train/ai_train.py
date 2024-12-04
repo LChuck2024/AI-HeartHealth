@@ -49,7 +49,7 @@ def data_change(data):
         if data[col].dtype != 'float64' or data[col].dtype != 'int64':
             # print(f'{col}:{tmp_data[col].dtype}')
             if os.path.exists(f'./ai_train/dict/{col}_dict.dict'):
-                tmp_dict = joblib.load(f'./ai_train/dict/{col}_dict.dict')
+                tmp_dict = joblib.load(f'/mount/src/ai-hearthealth/ai_train/dict/{col}_dict.dict')
                 print(f'{col}:{tmp_dict}')
             else:
                 tmp_dict = {item: index for index, item in enumerate(data[col].unique())}
@@ -57,7 +57,7 @@ def data_change(data):
                 data[col] = data[col].apply(func=lambda x: tmp_dict[x])
             except:
                 print(f'{col}转换失败: {data[col]}')
-            joblib.dump(tmp_dict, f'./ai_train/dict/{col}_dict.dict')
+            joblib.dump(tmp_dict, f'/mount/src/ai-hearthealth/ai_train/dict/{col}_dict.dict')
             print(tmp_dict)
     return data
 
@@ -144,7 +144,7 @@ class mlClient(object):
             self.df = pd.DataFrame(self.model_compare, columns=self.column_names)
 
             # 覆盖保存模型
-            joblib.dump([clf, self.mu, self.sigma,f1], f'./ai_train/models/{name}.pkl')
+            joblib.dump([clf, self.mu, self.sigma,f1], f'/mount/src/ai-hearthealth/ai_train/models/{name}.pkl')
 
 
 if __name__ == '__main__':
