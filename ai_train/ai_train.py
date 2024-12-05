@@ -17,15 +17,14 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 import warnings
 import joblib
 import os
-import sys
+import streamlit as st
 
 warnings.filterwarnings('ignore', category=FutureWarning)  # 忽略 FutureWarning
 
-def create_dict_path():
-    return os.path.dirname(os.path.abspath(sys.argv[0]))
-
-dicts_path = os.path.join(create_dict_path(), 'ai_train','dicts')
-models_path = os.path.join(create_dict_path(), 'ai_train','models')
+# 项目目录
+Home_path = st.session_state.path
+dicts_path = os.path.join(Home_path, 'ai_train', 'dicts')
+models_path = os.path.join(Home_path, 'ai_train', 'models')
 
 if not os.path.exists(dicts_path):
     os.makedirs(dicts_path)
@@ -60,7 +59,7 @@ def data_change(data):
     # 数据转换
     for col in data.columns:
         if data[col].dtype != 'float64' or data[col].dtype != 'int64':
-            # print(f'{col}:{tmp_data[col].dtype}')
+            print(f'{col}:{data[col].dtype}')
             if os.path.exists(f'{dicts_path}/{col}_dict.dict'):
                 tmp_dict = joblib.load(f'{dicts_path}/{col}_dict.dict')
                 print(f'{col}:{tmp_dict}')
@@ -152,19 +151,18 @@ class mlClient(object):
             precision = precision_score(y_test, y_pred)
             recall = recall_score(y_test, y_pred)
             f1 = f1_score(y_test, y_pred)
-            
+
             importances = None
             try:
                 importances = clf.feature_importances_
             except:
                 print(f'{name}模型没有feature_importances_')
-                
-            
+
             self.model_compare.append([name, train_time, pred_time, accuracy, precision, recall, f1, importances])
             self.df = pd.DataFrame(self.model_compare, columns=self.column_names)
 
             # 覆盖保存模型
-            joblib.dump([clf, self.mu, self.sigma,f1], f'{models_path}/{name}.pkl')
+            joblib.dump([clf, self.mu, self.sigma, f1], f'{models_path}/{name}.pkl')
 
 
 if __name__ == '__main__':
