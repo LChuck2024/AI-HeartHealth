@@ -3,8 +3,6 @@ import streamlit as st
 import joblib
 import pandas as pd
 from ai_train import ai_train
-import os
-import sys
 
 # 设置页面配置
 st.set_page_config(page_title="🔍问卷预测",
@@ -55,6 +53,9 @@ st.markdown(
                 <br/>
         </div>
     """, unsafe_allow_html=True)
+
+# 项目目录
+Home_path = st.session_state.path
 
 selected_model = st.session_state.model
 st.write(f'使用推荐模型：{selected_model}，如需更改请进入模型训练页面配置')
@@ -119,11 +120,11 @@ st.write(data)
 # 数据转换
 data = ai_train.data_change(data)
 # 导入模型
-[model, mu, sigma, f1] = joblib.load(f'/mount/src/ai-hearthealth/ai_train/models/{selected_model}.pkl')
+[model, mu, sigma, f1] = joblib.load(f'{Home_path}/ai_train/models/{selected_model}.pkl')
 # 数据标准化
 data = (data - mu) / sigma
 prediction = model.predict(data)[0]
-HeartDisease_dict = joblib.load(f'/mount/src/ai-hearthealth/ai_train/dicts/HeartDisease_dict.dict')
+HeartDisease_dict = joblib.load(f'{Home_path}/ai_train/dicts/HeartDisease_dict.dict')
 result_dict = {item: idex for idex, item in HeartDisease_dict.items()}
 result = result_dict.get(prediction)
 st.write(f'模型预测结果：{result}，预测准确率：{round(f1 * 100, 2)}%')
