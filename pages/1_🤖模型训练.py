@@ -100,7 +100,7 @@ for bar in bars:
     ax_bar.text(bar.get_x() + bar.get_width() / 2, yval + 0.05 * yval, f'{yval // 1000}k', ha='center', va='bottom')
 
 # 创建饼图
-fig_pie, ax_pie = plt.subplots(figsize=(4, 4), dpi=200, constrained_layout=True)  # 设置图形大小为 3x3 英寸，增加 dpi 提高分辨率
+fig_pie, ax_pie = plt.subplots(figsize=(4, 4), dpi=200, constrained_layout=True)  # 设置图形大小为 4x4 英寸，增加 dpi 提高分辨率
 wedges, texts, autotexts = ax_pie.pie(
     clas_count,
     labels=clas_count.index,
