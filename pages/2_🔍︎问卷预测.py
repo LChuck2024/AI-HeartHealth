@@ -123,16 +123,23 @@ data = ai_train.data_change(data)
 [model, mu, sigma, f1] = joblib.load(f'{Home_path}/ai_train/models/{selected_model}.pkl')
 # 数据标准化
 data = (data - mu) / sigma
-prediction = model.predict(data)[0]
-HeartDisease_dict = joblib.load(f'{Home_path}/ai_train/dicts/HeartDisease_dict.dict')
-result_dict = {item: idex for idex, item in HeartDisease_dict.items()}
-result = result_dict.get(prediction)
-st.write(f'模型预测结果：{result}，预测准确率：{round(f1 * 100, 2)}%')
-if result == 'No':
-    # 绿色底色白色字体
-    st.markdown('<div style="background-color:green;color:white;padding:10px;">恭喜您，您没有心脏病，继续保持！</div>', unsafe_allow_html=True)
-    # st.markdown('恭喜您，您没有心脏病，继续保持！')
-else:
-    # 红色底色白色字体
-    st.markdown('<div style="background-color:red;color:white;padding:10px;">很遗憾，您可能患有心脏病，请及时就医检查！</div>', unsafe_allow_html=True)
-    # st.markdown('很遗憾，您可能患有心脏病，请及时就医检查！')
+
+# 分割线
+st.markdown("""---""")
+# 设置按钮
+button = st.button("开始预测")
+
+if button:
+    prediction = model.predict(data)[0]
+    HeartDisease_dict = joblib.load(f'{Home_path}/ai_train/dicts/HeartDisease_dict.dict')
+    result_dict = {item: idex for idex, item in HeartDisease_dict.items()}
+    result = result_dict.get(prediction)
+    st.write(f'模型预测结果：{result}，预测准确率：{round(f1 * 100, 2)}%')
+    if result == 'No':
+        # 绿色底色白色字体
+        st.markdown('<div style="background-color:green;color:white;padding:10px;">恭喜您，您没有心脏病，继续保持！</div>', unsafe_allow_html=True)
+        # st.markdown('恭喜您，您没有心脏病，继续保持！')
+    else:
+        # 红色底色白色字体
+        st.markdown('<div style="background-color:red;color:white;padding:10px;">很遗憾，您可能患有心脏病，请及时就医检查！</div>', unsafe_allow_html=True)
+        # st.markdown('很遗憾，您可能患有心脏病，请及时就医检查！')
