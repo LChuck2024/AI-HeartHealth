@@ -17,6 +17,8 @@ st.set_page_config(page_title="🗂批量预测",
 st.header("🗂 批量预测")
 st.sidebar.subheader("🗂 批量预测")
 
+Home_path = st.session_state.path
+
 st.markdown(
     """<div style="background-color:#f5f5f5;padding:10px;">
                 <p style="color:#999999;">
@@ -72,13 +74,13 @@ if button:
     # 转换数据展示
     # st.write(data)
     # 导入模型
-    [model, mu, sigma, f1] = joblib.load(f'/mount/src/ai-hearthealth/ai_train/models/{selected_model}.pkl')
+    [model, mu, sigma, f1] = joblib.load(f'{Home_path}/ai_train/models/{selected_model}.pkl')
     # 数据标准化
     data = (data - mu) / sigma
     # 模型预测
     prediction = model.predict(data)
     # 加载映射
-    HeartDisease_dict = joblib.load('/mount/src/ai-hearthealth/ai_train/dicts/HeartDisease_dict.dict')
+    HeartDisease_dict = joblib.load(f'{Home_path}/ai_train/dicts/HeartDisease_dict.dict')
     result_dict = {item: idex for idex, item in HeartDisease_dict.items()}
     # 数据转换
     result = pd.DataFrame(prediction, columns=['HeartDisease'])
