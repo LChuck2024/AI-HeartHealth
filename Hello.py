@@ -1,5 +1,7 @@
 # 首页
 import streamlit as st
+import os
+import sys
 
 # 设置页面配置
 st.set_page_config(page_title="🏠项目主页",
@@ -16,6 +18,7 @@ st.sidebar.subheader("🏠 项目主页")
 # 设置默认模型算法
 session_state = st.session_state
 st.session_state.model = 'LGBM'
+st.session_state.path = os.path.dirname(os.path.abspath(sys.argv[0]))
 
 st.markdown(
     """<div style="background-color:#f5f5f5;padding:10px;">
